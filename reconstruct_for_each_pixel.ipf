@@ -29,7 +29,7 @@ function reconstruct_spectra ( wM, hM)
 				
 				temp = wM[p][i] * hM [i][j]		// multiplication
 				
-				output [p][count] = temp[p]	// assign to output
+				output [][count] = temp[p]	// assign to output
 				count=count+1
 			// print i,j, count
 		endfor
