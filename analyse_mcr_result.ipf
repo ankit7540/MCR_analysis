@@ -1,5 +1,7 @@
 #pragma rtGlobals=3		// Use modern global access method and strict wave access.
 
+//----------------------------------------------------
+
 // function to map H matrix to 2D matrices for image generation
 // H matrix is output of MCR analysis
 
@@ -31,7 +33,7 @@ printf "factor : %g   \r", factor
 if ( mod(x2, y_pnts) >0 )
 	abort "Check input for y_pnts"
 endif
-if ( factor != x_pnts )   
+if ( factor != x_pnts )
 	abort "Check input  for x_pnts"
 endif
 //duplicate /d matH, tmpH
@@ -39,23 +41,23 @@ endif
 matrixop /o tmpH=matH^t
 
 for (i=0 ; i<x1 ; i=i+1)
-		
+
 	sprintf 	output_name, "%s_out_%g",wname,i
 	print output_name
-	
+
 	make /o /d /n=(x_pnts, y_pnts) $output_name=0
 	wave opwave=$output_name
-	
+
 	for (j=0 ; j< (y_pnts) ; j=j+1)
 
 		for ( k =0 ; k < (x_pnts) ; k = k+1)
-			// print i,j,k, (factor*j)+k   
+			// print i,j,k, (factor*j)+k
 			opwave[k][j] = tmpH[  ((factor*j)+k)  ][i]
-				
-		endfor 
-	
+
+		endfor
+
 	endfor
-	
+
 endfor
 
 
@@ -65,3 +67,4 @@ microSeconds = stopMSTimer(timerRefNum)
 Print microSeconds/10000, "microseconds"
 
 end
+//----------------------------------------------------
