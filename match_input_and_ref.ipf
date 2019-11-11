@@ -21,7 +21,7 @@ function count_column_occurence (input , reference)
 		temp[] = reference [p][i]
 		
 		// perform check
-		for ( j=prev_j ; j < nCols_input ; j=j+1)
+		for ( j=0 ; j < nCols_input ; j=j+1)
 			temp_input [] = input [p][j]
 			
 			findSequence /V = temp temp_input
