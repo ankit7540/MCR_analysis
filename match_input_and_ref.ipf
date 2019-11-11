@@ -54,7 +54,7 @@ function count_column_occurence_and_save (input , reference)
 	variable nRows_input, nCols_input
 	variable i, j
 	variable prev_j=0
-	variable count, count2
+	variable count
 	
 	nRows = dimsize ( reference, 0)
 	nCols = dimsize ( reference, 1)
