@@ -54,7 +54,7 @@ function count_column_occurence_and_save (input , reference)
 	variable nRows_input, nCols_input
 	variable i, j
 	variable prev_j=0
-	variable count 
+	variable count, count2
 	
 	nRows = dimsize ( reference, 0)
 	nCols = dimsize ( reference, 1)
@@ -68,24 +68,29 @@ function count_column_occurence_and_save (input , reference)
 	make /FREE /o /d /n=(nRows) temp_input
 	
 	// make 2D wave to keep matched data
-	// waves made with wave can be referenced directly
-	make /o /d /n=(nRows, nCols) matched
+	// waves made with 'make' can be referenced directly
+	make /o /d /n=(nRows) matched
 	
-	for ( i=0 ; i < nCols ; i=i+1)	// checking all cols of the subset
+	printf "Size of the reference : %g x %g\r", nRows,nCols 
+	
+	for ( i=0 ; i < nCols ; i=i+1)	// checking all columns of the subset
 		temp[] = reference [p][i]
+		//print i
 		
 		// perform check
-		for ( j=prev_j ; j < nCols_input ; j=j+1)
+		for ( j= 0  ; j < nCols_input ; j=j+1)
 			temp_input [] = input [p][j]
 			
 			findSequence /V = temp temp_input
 			
 			if ( V_value != -1)
-				prev_j = j
+				prev_j = 0
 				output [j] = 1
-				// print i, j, "found" 
-				
-				
+				//print i, j, "found" 
+				//matched [][j] = reference [p][j]	
+				count=count+1			
+				InsertPoints/M=1 count,1, matched
+				matched[][count] = reference [p][i]	
 				break
 			endif	
 			
@@ -95,6 +100,11 @@ function count_column_occurence_and_save (input , reference)
 	
 count = wavesum ( output ) 	
 print "Total occurences : ", count 
+
+
+DeletePoints/M=1 0,1, matched
+
+
 end	
 
 //************************************************************************************************
