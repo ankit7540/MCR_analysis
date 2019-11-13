@@ -1,3 +1,8 @@
+// To check matching columns in two matrices. One is the reference (smaller) and other
+//	is the input (larger matrix). 
+//	'count_column_occurence' : performs counting only
+//	'count_column_occurence_and_save' : counting and saving matched columns
+
 function count_column_occurence (input , reference)
 	wave input		// large matrix in which data is checked
 	wave reference	// reference matrix, a subset of input
@@ -5,7 +10,6 @@ function count_column_occurence (input , reference)
 	variable nRows, nCols
 	variable nRows_input, nCols_input
 	variable i, j
-	variable prev_j=0
 	variable count 
 	
 	nRows = dimsize ( reference, 0)
@@ -27,11 +31,8 @@ function count_column_occurence (input , reference)
 			findSequence /V = temp temp_input
 			
 			if ( V_value != -1)
-				prev_j = j
-				output [j] = 1
+				output [j] = 1	// used for counting occurences
 				// print i, j, "found" 
-				
-				//make /FREE /o /d /n=(nRows) compare_output
 				break
 			endif	
 			
@@ -53,7 +54,6 @@ function count_column_occurence_and_save (input , reference)
 	variable nRows, nCols
 	variable nRows_input, nCols_input
 	variable i, j
-	variable prev_j=0
 	variable count
 	
 	nRows = dimsize ( reference, 0)
@@ -84,10 +84,8 @@ function count_column_occurence_and_save (input , reference)
 			findSequence /V = temp temp_input
 			
 			if ( V_value != -1)
-				prev_j = 0
 				output [j] = 1
 				//print i, j, "found" 
-				//matched [][j] = reference [p][j]	
 				count=count+1			
 				InsertPoints/M=1 count,1, matched
 				matched[][count] = reference [p][i]	
@@ -98,12 +96,9 @@ function count_column_occurence_and_save (input , reference)
 		
 	endfor	
 	
-count = wavesum ( output ) 	
-print "Total occurences : ", count 
-
+print "Total occurences : ", wavesum ( output )
 
 DeletePoints/M=1 0,1, matched
-
 
 end	
 
